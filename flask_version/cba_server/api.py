@@ -16,6 +16,7 @@ import sys
 import math
 
 from cba_server.db import get_db
+from cba_server.request_logging import log_request
 from roads_cba_py.section import Section, InvalidSection, parse_section
 from roads_cba_py.cba import CostBenefitAnalysisModel
 from roads_cba_py.utils import flatten, split_on_condition
