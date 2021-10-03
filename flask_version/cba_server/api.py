@@ -27,11 +27,13 @@ bp = Blueprint("api", __name__)
 @bp.route("/run_sections", methods=["POST"])
 def run_sections():
 
-    with open("/Users/jamescook/world_bank/openroads-vn-analytics/bin/request.json", "w") as f:
-        f.write(json.dumps(request.json))
+    # with open("/Users/jamescook/world_bank/openroads-vn-analytics/bin/request.json", "w") as f:
+    #    f.write(json.dumps(request.json))
 
     config = Config.parse_obj(request.json["config"])
-    print(f"{config}", file=sys.stderr)
+    # print(config.json())
+    # config = Config()  # .parse_obj(request.json["config"])
+    # print(f"{config.json()}", file=sys.stderr)
     assets = request.json["assets"]
     valid_sections, invalid_sections, stats = split_assets_by_validity(assets)
 
