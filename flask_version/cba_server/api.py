@@ -1,4 +1,3 @@
-from flask_version.cba_server.request_logging import log_request
 from flask import (
     Blueprint,
     flash,
