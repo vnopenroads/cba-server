@@ -15,7 +15,7 @@ import sys
 import math
 
 from cba_server.db import get_db
-from cba_server.request_logging import log_request
+from cba_server.request_logging import log_request, log_response
 from roads_cba_py.section import Section, InvalidSection, parse_section
 from roads_cba_py.cba import CostBenefitAnalysisModel
 from roads_cba_py.utils import flatten, split_on_condition
@@ -27,7 +27,7 @@ bp = Blueprint("api", __name__)
 
 @bp.route("/run_sections", methods=["POST"])
 def run_sections():
-    log_request(request)
+    request_id = log_request(request)
     config = Config.parse_obj(request.json["config"])
     assets = request.json["assets"]
     valid_sections, invalid_sections, stats = split_assets_by_validity(assets)
@@ -42,13 +42,16 @@ def run_sections():
     invalid_reasons = pd.DataFrame(data=problems, columns=["reason"])
     invalid_reasons = invalid_reasons["reason"].value_counts().to_dict()
 
-    return jsonify(
+    response = jsonify(
         {
             "stats": stats,
             "invalids": invalid_reasons,
             "data": [s.dict() for s in valid_results],
         }
     )
+    log_response(response, request_id)
+
+    return response
 
 
 @bp.route("/evaluate_assets", methods=["POST"])
