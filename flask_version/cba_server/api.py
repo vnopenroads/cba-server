@@ -1,3 +1,4 @@
+from flask_version.cba_server.request_logging import log_request
 from flask import (
     Blueprint,
     flash,
@@ -26,14 +27,8 @@ bp = Blueprint("api", __name__)
 
 @bp.route("/run_sections", methods=["POST"])
 def run_sections():
-
-    # with open("/Users/jamescook/world_bank/openroads-vn-analytics/bin/request.json", "w") as f:
-    #    f.write(json.dumps(request.json))
-
+    log_request(request)
     config = Config.parse_obj(request.json["config"])
-    # print(config.json())
-    # config = Config()  # .parse_obj(request.json["config"])
-    # print(f"{config.json()}", file=sys.stderr)
     assets = request.json["assets"]
     valid_sections, invalid_sections, stats = split_assets_by_validity(assets)
 
