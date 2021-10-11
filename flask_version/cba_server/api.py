@@ -34,11 +34,9 @@ def run_sections():
 
     cba = CostBenefitAnalysisModel(config)
     results = [cba.compute_cba_for_section(s) for s in valid_sections]
+    results = sorted(results, key=lambda x: (x.work_year, x.npv_cost))
 
-    valid_results, invalid_results = split_on_condition(results, lambda r: not math.isnan(r.eirr))
-    valid_results = sorted(valid_results, key=lambda x: (x.work_year, x.npv_cost))
-
-    problems = flatten([s.invalid_reason() for s in invalid_sections]) + ["eirr is NaN"] * len(invalid_results)
+    problems = flatten([s.invalid_reason() for s in invalid_sections])
     invalid_reasons = pd.DataFrame(data=problems, columns=["reason"])
     invalid_reasons = invalid_reasons["reason"].value_counts().to_dict()
 
@@ -46,7 +44,7 @@ def run_sections():
         {
             "stats": stats,
             "invalids": invalid_reasons,
-            "data": [s.dict() for s in valid_results],
+            "data": [s.dict() for s in results],
         }
     )
     log_response(response, request_id)
