@@ -244,3 +244,5 @@ secrets/
 temp/
 
 .env
+
+flask_version/cba_server/run_sections*
