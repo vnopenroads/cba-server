@@ -34,7 +34,7 @@ def run_sections():
 
     cba = CostBenefitAnalysisModel(config)
     results = [cba.compute_cba_for_section(s) for s in valid_sections]
-    results = sorted(results, key=lambda x: (x.work_year, x.npv_cost))
+    results = sorted(results, key=lambda x: (x.work_year, -x.npv_cost))
 
     problems = flatten([s.invalid_reason() for s in invalid_sections])
     invalid_reasons = pd.DataFrame(data=problems, columns=["reason"])
