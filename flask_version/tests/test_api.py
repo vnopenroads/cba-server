@@ -5,8 +5,6 @@ import sys
 import os
 
 sys.path.append(".")
-print(os.getcwd())
-print(__file__)
 
 
 class TestApi(unittest.TestCase):
