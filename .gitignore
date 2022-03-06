@@ -30,6 +30,7 @@ wheels/
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+instance
 
 # Installer logs
 pip-log.txt
@@ -245,4 +246,4 @@ temp/
 
 .env
 
-flask_version/cba_server/run_sections*
+cba_server/run_sections*
