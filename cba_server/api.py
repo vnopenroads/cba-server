@@ -59,7 +59,8 @@ def evaluate_assets():
     problems = flatten([s.invalid_reason() for s in invalid_sections])
     invalid_reasons = pd.DataFrame(data=problems, columns=["reason"])
     invalid_reasons = invalid_reasons["reason"].value_counts().to_dict()
-    return jsonify({"stats": stats, "invalids": invalid_reasons})
+    invalid_way_ids = [int(s.original_data["orma_way_id"]) for s in invalid_sections]
+    return jsonify({"stats": stats, "invalids": invalid_reasons, "invalid_way_ids": invalid_way_ids})
 
 
 def split_assets_by_validity(data):
